@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KXESDESK — Rahatla &amp; Odaklan</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2300FF66'/%3E%3Ctext x='32' y='43' font-family='Arial Black,Arial' font-size='30' font-weight='900' text-anchor='middle' fill='%23121212'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{
+  --bg:#121212; --surface:#1a1a1a; --accent:#00FF66;
+  --text:#f2f2f2; --muted:#8a8a8a; --border:rgba(255,255,255,.08);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'Sora',sans-serif;min-height:100vh;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#0b0f0c}
+
+.top{display:flex;justify-content:space-between;align-items:center;padding:28px 40px;max-width:1100px;width:100%;margin:0 auto}
+.brand{display:flex;align-items:baseline;gap:14px}
+.logo{font-weight:700;letter-spacing:.4em;font-size:1.1rem;color:var(--accent)}
+.tagline{color:var(--muted);font-size:.75rem;letter-spacing:.15em;text-transform:uppercase}
+.lang-switch{display:flex;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:3px}
+.lang-btn{background:transparent;border:0;color:var(--muted);font-family:inherit;font-size:.75rem;font-weight:600;letter-spacing:.08em;padding:7px 16px;border-radius:999px;cursor:pointer;transition:color .2s,background-color .2s}
+.lang-btn.active{background:var(--accent);color:#0b0f0c}
+
+main{flex:1;width:100%;max-width:1100px;margin:0 auto;padding:0 24px 64px;display:flex;flex-direction:column;gap:40px}
+
+.timer-section{position:relative;text-align:center;padding-top:24px}
+.glow{position:absolute;inset:-70px 0 auto;height:440px;background:radial-gradient(ellipse at center,rgba(0,255,102,.08),transparent 65%);pointer-events:none}
+.presets{position:relative;display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-bottom:38px}
+.preset{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:999px;padding:9px 18px;font-family:inherit;font-size:.8rem;letter-spacing:.05em;cursor:pointer;transition:border-color .2s,color .2s,background-color .2s}
+.preset:hover:not(:disabled){border-color:rgba(0,255,102,.5);color:var(--text)}
+.preset.active{background:var(--accent);border-color:var(--accent);color:#0b0f0c;font-weight:600}
+.preset:disabled{opacity:.45;cursor:not-allowed}
+.timer-display{position:relative;font-family:'JetBrains Mono',monospace;font-weight:700;font-size:clamp(4.5rem,17vw,9.5rem);line-height:1;letter-spacing:.02em;text-shadow:0 0 44px rgba(0,255,102,.22)}
+.timer-display.flash{animation:flash 1s ease 3}
+@keyframes flash{50%{color:var(--accent);text-shadow:0 0 60px rgba(0,255,102,.6)}}
+.progress{position:relative;width:min(320px,70%);height:3px;background:rgba(255,255,255,.08);border-radius:2px;margin:28px auto 0;overflow:hidden}
+.progress-fill{height:100%;width:100%;background:var(--accent);border-radius:2px;transition:width .3s linear}
+.status{position:relative;min-height:12px;margin-top:10px;color:var(--accent);font-size:.8rem;letter-spacing:.18em;text-transform:uppercase}
+.custom-row{position:relative;display:flex;justify-content:center;align-items:center;gap:10px;margin:0px 0 15px}
+#customInput{width:130px;background:var(--surface);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:11px 14px;font-family:'JetBrains Mono',monospace;font-size:.95rem;text-align:center;outline:none;appearance:textfield;transition:border-color .2s,box-shadow .2s}
+#customInput::-webkit-outer-spin-button,#customInput::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+#customInput:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,255,102,.15)}
+#customInput:disabled{opacity:.45}
+.custom-suffix{color:var(--muted);font-size:.8rem;letter-spacing:.08em}
+.controls{position:relative;display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:9px;font-family:inherit;font-size:.9rem;font-weight:600;letter-spacing:.04em;border-radius:999px;padding:13px 28px;cursor:pointer;border:1px solid transparent;transition:transform .15s,box-shadow .2s,background-color .2s,color .2s,border-color .2s}
+.btn:active{transform:scale(.97)}
+.btn-primary{background:var(--accent);color:#0b0f0c}
+.btn-primary:hover:not(:disabled){box-shadow:0 6px 26px rgba(0,255,102,.35);transform:translateY(-1px)}
+.btn-outline{background:transparent;border-color:var(--border);color:var(--text)}
+.btn-outline:hover:not(:disabled){border-color:rgba(0,255,102,.5);color:var(--accent)}
+.btn-ghost{background:transparent;color:var(--muted)}
+.btn-ghost:hover:not(:disabled){color:var(--text)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.hint{position:relative;margin-top:24px;color:var(--muted);font-size:.80rem;letter-spacing:.18em;text-transform:uppercase}
+
+.sounds-section h2{font-size:1rem;font-weight:600;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);text-align:center;margin-bottom:28px}
+.sounds-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.sound-card{display:flex;flex-direction:column;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:26px 12px 22px;cursor:pointer;color:var(--muted);font-family:inherit;opacity:0;animation:rise .5s ease forwards;transition:transform .2s,border-color .2s,box-shadow .25s,color .2s,background-color .2s}
+.sound-card:hover{transform:translateY(-3px);border-color:rgba(0,255,102,.4);color:var(--text)}
+.sound-card .fa-solid{font-size:1.35rem}
+.sound-name{font-size:.8rem;font-weight:500}
+.sound-card.active{border-color:var(--accent);color:var(--accent);background:rgba(0,255,102,.06);box-shadow:0 0 26px rgba(0,255,102,.12)}
+.eq{display:flex;gap:2px;height:10px;align-items:flex-end;opacity:0;transition:opacity .25s}
+.eq i{width:3px;height:4px;background:var(--accent);border-radius:1px}
+.sound-card.playing .eq{opacity:1}
+.sound-card.playing .eq i{animation:eq .9s ease-in-out infinite}
+.eq i:nth-child(2){animation-delay:.2s}
+.eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:4px}50%{height:10px}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.foot{text-align:center;color:var(--muted);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;padding:30px 0 36px}
+
+@media(max-width:820px){.sounds-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){
+  .sounds-grid{grid-template-columns:repeat(2,1fr)}
+  .top{padding:22px 20px}
+  .tagline{display:none}
+  .btn{padding:12px 20px;font-size:.80rem}
+  main{gap:40px}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="logo" data-testid="brand-logo">KXESDESK</span>
+    <span class="tagline" data-testid="brand-tagline" data-i18n="tagline"></span>
+  </div>
+  <div class="lang-switch" role="group" aria-label="Language / Dil">
+    <button id="btnTr" class="lang-btn active" data-testid="lang-switch-tr">TR</button>
+    <button id="btnEn" class="lang-btn" data-testid="lang-switch-en">EN</button>
+  </div>
+</header>
+
+<main>
+  <section class="timer-section" data-testid="timer-section">
+    <div class="glow"></div>
+    <div class="presets">
+      <button class="preset active" data-min="25" data-key="focus" data-testid="preset-focus"></button>
+      <button class="preset" data-min="15" data-key="long" data-testid="preset-long-break"></button>
+      <button class="preset" data-min="5" data-key="short" data-testid="preset-short-break"></button>
+    </div>
+    <div class="timer-display" id="display" data-testid="timer-display">25:00</div>
+    <div class="progress"><div class="progress-fill" id="progressFill" data-testid="timer-progress"></div></div>
+    <div class="status" id="statusMsg" data-testid="timer-status"></div>
+    <div class="custom-row">
+      <input type="number" id="customInput" data-testid="custom-minutes-input" min="1" max="180" inputmode="numeric">
+      <span class="custom-suffix" data-i18n="min"></span>
+    </div>
+    <div class="controls">
+      <button id="startBtn" class="btn btn-primary" data-testid="start-button"><i class="fa-solid fa-play"></i><span data-i18n="start"></span></button>
+      <button id="stopBtn" class="btn btn-outline" data-testid="stop-button"><i class="fa-solid fa-pause"></i><span data-i18n="stop"></span></button>
+      <button id="resetBtn" class="btn btn-ghost" data-testid="reset-button"><i class="fa-solid fa-rotate-left"></i><span data-i18n="reset"></span></button>
+    </div>
+    <p class="hint" data-testid="spacebar-hint" data-i18n="hint"></p>
+  </section>
+
+  <section class="sounds-section">
+    <h2 data-testid="sounds-title" data-i18n="soundsTitle"></h2>
+    <div class="sounds-grid" id="soundsGrid" data-testid="sounds-grid"></div>
+  </section>
+</main>
+
+<footer class="foot">
+"CLEAN CODE, STRONG ARCHITECTURES"<br>
+KXESDESK - BY THE 3T STUDIO<br>
+kxesdesk@outlook.com
+</footer>
+
+<script>
+const SOUNDS=[
+  {id:'rain',icon:'fa-cloud-rain',url:'https://actions.google.com/sounds/v1/weather/rain_heavy_loud.ogg'},
+  {id:'birds',icon:'fa-dove',url:'https://upload.wikimedia.org/wikipedia/commons/8/8c/Pale-footed_Bush_Warbler.ogg'},
+  {id:'ocean',icon:'fa-water',url:'https://actions.google.com/sounds/v1/water/waves_crashing_on_rock_beach.ogg'},
+  {id:'wind',icon:'fa-wind',url:'https://actions.google.com/sounds/v1/weather/wind.ogg'},
+  {id:'forest',icon:'fa-tree',url:'https://upload.wikimedia.org/wikipedia/commons/0/0a/20090610_0_ambience.ogg'},
+  {id:'night',icon:'fa-moon',url:'https://upload.wikimedia.org/wikipedia/commons/f/fe/Nature_sounds_ambience_in_a_Dordogne_pond.ogg'},
+  {id:'thunder',icon:'fa-cloud-bolt',url:'https://actions.google.com/sounds/v1/weather/rolling_thunder.ogg'},
+  {id:'fireplace',icon:'fa-fire',url:'https://actions.google.com/sounds/v1/ambiences/fire.ogg'},
+  {id:'library',icon:'fa-keyboard',url:'https://actions.google.com/sounds/v1/office/keyboard_typing_fast.ogg'},
+  {id:'lofi',icon:'fa-music',url:'https://incompetech.com/music/royalty-free/mp3-royaltyfree/Airport%20Lounge.mp3'}
+];
+const BELL='https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg';
+
+const I18N={
+  tr:{title:'KXESDESK — Rahatla & Odaklan',tagline:'Rahatla & Odaklan',focus:'Odaklanma',short:'Kısa Mola',long:'Uzun Mola',min:'dk',customPh:'Özel',start:'Başlat',stop:'Durdur',reset:'Sıfırla',soundsTitle:'Rahatlatıcı Sesler',hint:'Sakin bir zihinle, hedefinize odaklanın!',finished:'Süre doldu',names:['Yağmur','Kuşlar','Okyanus Dalgaları','Rüzgar','Orman','Gece','Gök Gürültüsü','Şömine','Kütüphane','Lo-Fi Ritim']},
+  en:{title:'KXESDESK — Relax & Focus',tagline:'Relax & Focus',focus:'Focus',short:'Short Break',long:'Long Break',min:'min',customPh:'Custom',start:'Start',stop:'Stop',reset:'Reset',soundsTitle:'Relaxing Sounds',hint:'With a calm mind, focus on your objective!',finished:"Time's up",names:['Rain','Birds','Ocean Waves','Wind','Forest','Night','Thunder','Fireplace','Library','Lo-Fi Beat']}
+};
+
+let lang='tr',duration=25*60,remaining=duration,running=false,timerId=null,endAt=0;
+const selected=new Set(['rain']);
+const audios={};
+const $=s=>document.querySelector(s);
+const display=$('#display'),fill=$('#progressFill'),statusEl=$('#statusMsg'),customInput=$('#customInput');
+const startBtn=$('#startBtn'),stopBtn=$('#stopBtn'),resetBtn=$('#resetBtn'),btnTr=$('#btnTr'),btnEn=$('#btnEn');
+const grid=$('#soundsGrid');
+
+SOUNDS.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='sound-card'+(selected.has(s.id)?' active':'');
+  b.dataset.id=s.id;
+  b.setAttribute('data-testid','sound-card-'+s.id);
+  b.style.animationDelay=(0.05+i*0.045)+'s';
+  b.innerHTML=`<i class="fa-solid ${s.icon}"></i><span class="sound-name"></span><span class="eq"><i></i><i></i><i></i></span>`;
+  b.addEventListener('click',()=>toggleSound(s.id));
+  grid.appendChild(b);
+});
+const card=id=>grid.querySelector(`[data-id="${id}"]`);
+
+function audioOf(id){
+  if(!audios[id]){audios[id]=new Audio(SOUNDS.find(s=>s.id===id).url);audios[id].loop=true;audios[id].preload='auto';}
+  return audios[id];
+}
+function play(id){const a=audioOf(id);a.play().then(()=>card(id).classList.add('playing')).catch(err=>console.log('audio blocked:',id,err.message));}
+function pause(id){const a=audios[id];if(a){a.pause();card(id).classList.remove('playing');}}
+function toggleSound(id){
+  if(selected.has(id)){selected.delete(id);card(id).classList.remove('active');pause(id);}
+  else{selected.add(id);card(id).classList.add('active');play(id);}
+}
+function playSelected(){selected.forEach(play);}
+function pauseAll(){SOUNDS.forEach(s=>pause(s.id));}
+
+const fmt=sec=>`${String(Math.floor(sec/60)).padStart(2,'0')}:${String(sec%60).padStart(2,'0')}`;
+function render(){
+  display.textContent=fmt(remaining);
+  fill.style.width=(duration?remaining/duration*100:0)+'%';
+  startBtn.disabled=running;stopBtn.disabled=!running;customInput.disabled=running;
+  document.querySelectorAll('.preset').forEach(p=>p.disabled=running);
+  document.body.classList.toggle('running',running);
+}
+function start(){
+  if(running)return;
+  if(remaining<=0)remaining=duration;
+  running=true;endAt=Date.now()+remaining*1000;statusEl.textContent='';
+  timerId=setInterval(tick,250);
+  playSelected();render();
+}
+function stop(){
+  if(!running)return;
+  running=false;clearInterval(timerId);
+  remaining=Math.max(0,Math.round((endAt-Date.now())/1000));
+  pauseAll();render();
+}
+function reset(){
+  running=false;clearInterval(timerId);
+  remaining=duration;statusEl.textContent='';
+  pauseAll();render();
+}
+function tick(){
+  remaining=Math.max(0,Math.round((endAt-Date.now())/1000));
+  render();
+  if(remaining<=0){
+    running=false;clearInterval(timerId);pauseAll();render();
+    const b=new Audio(BELL);b.play().catch(()=>{});
+    //statusEl.textContent=I18N[lang].finished;
+    display.classList.add('flash');
+    setTimeout(()=>display.classList.remove('flash'),3100);
+  }
+}
+
+document.querySelectorAll('.preset').forEach(p=>p.addEventListener('click',()=>{
+  if(running)return;
+  document.querySelectorAll('.preset').forEach(x=>x.classList.remove('active'));
+  p.classList.add('active');
+  duration=parseInt(p.dataset.min,10)*60;remaining=duration;
+  customInput.value='';statusEl.textContent='';render();
+}));
+customInput.addEventListener('change',()=>{
+  if(running)return;
+  let v=parseInt(customInput.value,10);
+  if(isNaN(v))return;
+  v=Math.min(180,Math.max(1,v));customInput.value=v;
+  document.querySelectorAll('.preset').forEach(x=>x.classList.remove('active'));
+  duration=v*60;remaining=duration;statusEl.textContent='';render();
+});
+customInput.addEventListener('keydown',e=>{if(e.key==='Enter')customInput.blur();});
+
+startBtn.addEventListener('click',start);
+stopBtn.addEventListener('click',stop);
+resetBtn.addEventListener('click',reset);
+
+window.addEventListener('keydown',e=>{
+  if(e.code!=='Space')return;
+  const tag=e.target.tagName;
+  if(tag==='INPUT'||tag==='TEXTAREA')return;
+  e.preventDefault();
+  running?stop():start();
+});
+
+function applyLang(){
+  const t=I18N[lang];
+  document.title=t.title;
+  document.documentElement.lang=lang;
+  document.querySelectorAll('[data-i18n]').forEach(el=>{el.textContent=t[el.dataset.i18n];});
+  customInput.placeholder=t.customPh;
+  document.querySelectorAll('.preset').forEach(p=>{p.textContent=`${t[p.dataset.key]} · ${p.dataset.min} ${t.min}`;});
+  grid.querySelectorAll('.sound-card').forEach((c,i)=>{c.querySelector('.sound-name').textContent=t.names[i];});
+  btnTr.classList.toggle('active',lang==='tr');
+  btnEn.classList.toggle('active',lang==='en');
+  if(statusEl.textContent)statusEl.textContent=t.finished;
+}
+btnTr.addEventListener('click',()=>{lang='tr';applyLang();});
+btnEn.addEventListener('click',()=>{lang='en';applyLang();});
+
+applyLang();
+render();
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/v4513226cdae34746b4dedf0b4dfa099e1781791509496" integrity="sha512-ZE9pZaUXND66v380QUtch/5sE9tPFh2zg45pR2PB0CVkCtOREv2AJKkSidISWkysEuQ0EH8faUU5du78bx87UQ==" data-cf-beacon='{"version":"2024.11.0","token":"7f7b0fd8732c4326aae4b9d58d5c514a"}' crossorigin="anonymous"></script>
+</body>
+</html>
